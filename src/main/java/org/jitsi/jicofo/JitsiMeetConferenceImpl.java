@@ -3260,8 +3260,12 @@ public class JitsiMeetConferenceImpl
             OctoParticipant octoParticipant
                 = new OctoParticipant(JitsiMeetConferenceImpl.this, relays);
 
-            MediaSourceMap remoteSources = getAllSources(participants);
-            MediaSourceGroupMap remoteGroups = getAllSourceGroups(participants);
+            List<Participant> invitedParticipants = participants.stream()
+                .filter(p -> p.getBridgeSession() != null)
+                .collect(Collectors.toList());
+
+            MediaSourceMap remoteSources = getAllSources(invitedParticipants);
+            MediaSourceGroupMap remoteGroups = getAllSourceGroups(invitedParticipants);
 
             octoParticipant.addSourcesAndGroups(remoteSources, remoteGroups);
 
